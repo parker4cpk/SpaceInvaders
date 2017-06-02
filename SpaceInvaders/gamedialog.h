@@ -33,8 +33,15 @@ protected:
     QSoundEffect shipFiringSound;
     int next_instruct;
 
+    //QString movement;
+    bool leftPressed;
+    bool rightPressed;
+    int lastInstruction;
+    bool isShooting;
+
     // keys
     void keyPressEvent(QKeyEvent* event);
+    void keyReleaseEvent(QKeyEvent* event);
 
     // about the canvas
     int frames;

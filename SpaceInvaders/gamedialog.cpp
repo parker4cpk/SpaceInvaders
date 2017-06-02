@@ -31,7 +31,11 @@ GameDialog::GameDialog(QWidget* parent)
     QPixmap ship;
     ship.load(":/Images/ship.png");
     this->ship = new Ship(ship, c->get_scale(), c->get_startpos(), SCALEDHEIGHT);
-    this->next_instruct = 0;
+    //this->next_instruct = 0;
+    this->leftPressed = false;
+    this->rightPressed = false;
+    this->lastInstruction = Qt::Key_0;
+    this->isShooting = false;
     // SHIP SOUND
     shipFiringSound.setSource(QUrl::fromLocalFile(":/Sounds/shoot.wav"));
     shipFiringSound.setVolume(0.3f);
@@ -86,9 +90,49 @@ void GameDialog::pauseStart() {
 }
 
 void GameDialog::keyPressEvent(QKeyEvent* event) {
-    if (event->key() == Qt::Key_P) {
+
+    int key = event->key();
+
+    switch (key) {
+
+    case Qt::Key_P:
         pauseStart();
+        break;
+
+    case Qt::Key_Left:
+        leftPressed = true;
+        lastInstruction = key;
+        break;
+    case Qt::Key_Right:
+        rightPressed = true;
+        lastInstruction = key;
+        break;
+
+    case Qt::Key_Space:
+        isShooting = true;
+        break;
+
     }
+
+}
+
+void GameDialog::keyReleaseEvent(QKeyEvent* event) {
+
+    switch (event->key()) {
+
+    case Qt::Key_Space:
+        isShooting = false;
+        break;
+
+    case Qt::Key_Left:
+        leftPressed = false;
+        break;
+    case Qt::Key_Right:
+        rightPressed = false;
+        break;
+
+    }
+
 }
 
 // shows this game score
@@ -103,20 +147,33 @@ void GameDialog::nextFrame() {
     if (!paused) {
         Config* c = Config::getInstance();
 
+        /*
         QStringList instruct = c->get_instructs();
         if (next_instruct >= instruct.size()) {
             next_instruct = next_instruct % instruct.size();
         }
         QString ins = instruct[next_instruct];
         next_instruct++;
+        */
 
-        if (ins == "Left") {
+        int nextInstruction;
+        if (leftPressed && rightPressed) {
+            nextInstruction = lastInstruction;
+        } else if (leftPressed) {
+            nextInstruction = Qt::Key_Left;
+        } else if (rightPressed) {
+            nextInstruction = Qt::Key_Right;
+        } else {
+            nextInstruction = Qt::Key_0;
+        }
+
+        if (nextInstruction == Qt::Key_Left) {
             ship->move_left();
-
-        } else if (ins == "Right") {
+        } else if (nextInstruction == Qt::Key_Right) {
             ship->move_right();
+        }
 
-        } else if (ins == "Shoot") {
+        if (isShooting) {
             bullets.push_back(this->ship->shoot());
             this->shipFiringSound.play();
         }
