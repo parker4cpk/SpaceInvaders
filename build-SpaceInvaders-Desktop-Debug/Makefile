@@ -58,7 +58,8 @@ SOURCES       = ../SpaceInvaders/main.cpp \
 		../SpaceInvaders/diagonalbullet.cpp \
 		../SpaceInvaders/alienbuilder.cpp \
 		../SpaceInvaders/hunter.cpp \
-		../SpaceInvaders/menu.cpp qrc_resources.cpp \
+		../SpaceInvaders/menu.cpp \
+		../SpaceInvaders/standardlevelgenerator.cpp qrc_resources.cpp \
 		moc_gamedialog.cpp
 OBJECTS       = main.o \
 		base.o \
@@ -74,6 +75,7 @@ OBJECTS       = main.o \
 		alienbuilder.o \
 		hunter.o \
 		menu.o \
+		standardlevelgenerator.o \
 		qrc_resources.o \
 		moc_gamedialog.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -323,7 +325,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/SpaceInvaders1.0.0 || mkdir -p .tmp/SpaceInvaders1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/resources.qrc .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/base.h ../SpaceInvaders/ship.h ../SpaceInvaders/gamedialog.h ../SpaceInvaders/bullet.h ../SpaceInvaders/config.h ../SpaceInvaders/bulletbuilderinterface.h ../SpaceInvaders/bulletbuilder.h ../SpaceInvaders/alien.h ../SpaceInvaders/swarminfo.h ../SpaceInvaders/swarm.h ../SpaceInvaders/diagonalbullet.h ../SpaceInvaders/alienbuilder.h ../SpaceInvaders/hunter.h ../SpaceInvaders/menu.h ../SpaceInvaders/alienbase.h .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/main.cpp ../SpaceInvaders/base.cpp ../SpaceInvaders/ship.cpp ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/bullet.cpp ../SpaceInvaders/config.cpp ../SpaceInvaders/bulletbuilder.cpp ../SpaceInvaders/alien.cpp ../SpaceInvaders/swarminfo.cpp ../SpaceInvaders/swarm.cpp ../SpaceInvaders/diagonalbullet.cpp ../SpaceInvaders/alienbuilder.cpp ../SpaceInvaders/hunter.cpp ../SpaceInvaders/menu.cpp .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/dialog.ui .tmp/SpaceInvaders1.0.0/ && (cd `dirname .tmp/SpaceInvaders1.0.0` && $(TAR) SpaceInvaders1.0.0.tar SpaceInvaders1.0.0 && $(COMPRESS) SpaceInvaders1.0.0.tar) && $(MOVE) `dirname .tmp/SpaceInvaders1.0.0`/SpaceInvaders1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/SpaceInvaders1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/resources.qrc .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/base.h ../SpaceInvaders/ship.h ../SpaceInvaders/gamedialog.h ../SpaceInvaders/bullet.h ../SpaceInvaders/config.h ../SpaceInvaders/bulletbuilderinterface.h ../SpaceInvaders/bulletbuilder.h ../SpaceInvaders/alien.h ../SpaceInvaders/swarminfo.h ../SpaceInvaders/swarm.h ../SpaceInvaders/diagonalbullet.h ../SpaceInvaders/alienbuilder.h ../SpaceInvaders/hunter.h ../SpaceInvaders/menu.h ../SpaceInvaders/alienbase.h ../SpaceInvaders/standardlevelgenerator.h ../SpaceInvaders/levelgenerator.h .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/main.cpp ../SpaceInvaders/base.cpp ../SpaceInvaders/ship.cpp ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/bullet.cpp ../SpaceInvaders/config.cpp ../SpaceInvaders/bulletbuilder.cpp ../SpaceInvaders/alien.cpp ../SpaceInvaders/swarminfo.cpp ../SpaceInvaders/swarm.cpp ../SpaceInvaders/diagonalbullet.cpp ../SpaceInvaders/alienbuilder.cpp ../SpaceInvaders/hunter.cpp ../SpaceInvaders/menu.cpp ../SpaceInvaders/standardlevelgenerator.cpp .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/dialog.ui .tmp/SpaceInvaders1.0.0/ && (cd `dirname .tmp/SpaceInvaders1.0.0` && $(TAR) SpaceInvaders1.0.0.tar SpaceInvaders1.0.0 && $(COMPRESS) SpaceInvaders1.0.0.tar) && $(MOVE) `dirname .tmp/SpaceInvaders1.0.0`/SpaceInvaders1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/SpaceInvaders1.0.0
 
 
 clean:compiler_clean 
@@ -348,19 +350,19 @@ compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: ../SpaceInvaders/resources.qrc \
-		../SpaceInvaders/Images/blueInvader.png \
-		../SpaceInvaders/Images/blueInvaderLaser.png \
-		../SpaceInvaders/Images/redInvaderLaser.png \
-		../SpaceInvaders/Images/dumbInvader.png \
-		../SpaceInvaders/Images/hunterInvader.png \
-		../SpaceInvaders/Images/laser.png \
-		../SpaceInvaders/Images/hunterInvaderLaser.png \
-		../SpaceInvaders/Images/ship.png \
 		../SpaceInvaders/Images/redInvader.png \
+		../SpaceInvaders/Images/hunterInvader.png \
+		../SpaceInvaders/Images/hunterInvaderLaser.png \
+		../SpaceInvaders/Images/blueInvader.png \
 		../SpaceInvaders/Images/dumbInvaderLaser.png \
+		../SpaceInvaders/Images/laser.png \
+		../SpaceInvaders/Images/redInvaderLaser.png \
+		../SpaceInvaders/Images/blueInvaderLaser.png \
+		../SpaceInvaders/Images/dumbInvader.png \
+		../SpaceInvaders/Images/ship.png \
 		../SpaceInvaders/Sounds/shoot.wav \
-		../SpaceInvaders/Sounds/death.wav \
-		../SpaceInvaders/Sounds/invader.wav
+		../SpaceInvaders/Sounds/invader.wav \
+		../SpaceInvaders/Sounds/death.wav
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name resources ../SpaceInvaders/resources.qrc -o qrc_resources.cpp
 
 compiler_moc_header_make_all: moc_gamedialog.cpp
@@ -2099,6 +2101,99 @@ menu.o: ../SpaceInvaders/menu.cpp ../SpaceInvaders/menu.h \
 		/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		/usr/include/qt5/QtGui/qicon.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o menu.o ../SpaceInvaders/menu.cpp
+
+standardlevelgenerator.o: ../SpaceInvaders/standardlevelgenerator.cpp ../SpaceInvaders/standardlevelgenerator.h \
+		../SpaceInvaders/levelgenerator.h \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		../SpaceInvaders/swarminfo.h \
+		/usr/include/qt5/QtCore/QPair \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtGui/QPixmap \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/qsharedpointer.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtGui/qimage.h \
+		/usr/include/qt5/QtGui/qtransform.h \
+		/usr/include/qt5/QtGui/qmatrix.h \
+		/usr/include/qt5/QtGui/qpolygon.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtGui/qregion.h \
+		/usr/include/qt5/QtCore/qline.h \
+		/usr/include/qt5/QtGui/qpainterpath.h \
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/QStringList
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o standardlevelgenerator.o ../SpaceInvaders/standardlevelgenerator.cpp
 
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp

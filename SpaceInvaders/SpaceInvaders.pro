@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     diagonalbullet.cpp \
     alienbuilder.cpp \
     hunter.cpp \
-    menu.cpp
+    menu.cpp \
+    standardlevelgenerator.cpp
 
 HEADERS  += \
     base.h \
@@ -57,7 +58,9 @@ HEADERS  += \
     alienbuilder.h \
     hunter.h \
     menu.h \
-    alienbase.h
+    alienbase.h \
+    standardlevelgenerator.h \
+    levelgenerator.h
 
 FORMS    += dialog.ui
 
