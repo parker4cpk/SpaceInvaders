@@ -5,6 +5,7 @@
 #include "ship.h"
 #include "swarm.h"
 #include "swarminfo.h"
+#include "standardlevelgenerator.h"
 #include <QDialog>
 #include <QSoundEffect>
 #include <QWidget>
@@ -62,6 +63,11 @@ protected:
 
     // score
     int gameScore;  // this run's score.
+
+    int currentLevelNumber;
+    const QList<SwarmInfo> *currentLevel;
+    LevelGenerator *levelGenerator;
+
 public slots:
     void nextFrame();
     // menus

@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QWidget>
 #include <vector>
+#include <iostream>
 
 namespace game {
 
@@ -19,6 +20,8 @@ GameDialog::GameDialog(QWidget* parent)
     SCALEDWIDTH = c->get_SCALEDWIDTH();
     SCALEDHEIGHT = c->get_SCALEDHEIGHT();
     this->frames = c->get_frames();
+
+    levelGenerator = new StandardLevelGenerator(SCALEDWIDTH, SCALEDHEIGHT);
 
     // MENU
     QList<QPair<QString, int>> dummy;
@@ -41,7 +44,10 @@ GameDialog::GameDialog(QWidget* parent)
     shipFiringSound.setVolume(0.3f);
 
     // ALIENS
-    generateAliens(c->getSwarmList());
+    //generateAliens(c->getSwarmList());
+    currentLevelNumber = 1;
+    currentLevel = levelGenerator->getLevel(currentLevelNumber);
+    generateAliens(*currentLevel);
 
     // SET BACKGROUND
     setStyleSheet("background-color: #000000;");
@@ -57,6 +63,8 @@ GameDialog::GameDialog(QWidget* parent)
 GameDialog::~GameDialog() {
     delete ship;
     delete timer;  // optional, don't have to do this apparently
+
+    delete levelGenerator;
 
     // loop though swarms to delete aliens
     delete swarms;  // recursively deletes itself.
@@ -187,6 +195,18 @@ void GameDialog::nextFrame() {
     }
     // prepare collisions and calculate score
     update();
+
+    if (swarms->getAliens().isEmpty()) {
+
+        delete currentLevel;
+        currentLevelNumber++;
+        if (currentLevelNumber > 10) {
+            close();
+         }
+        currentLevel = levelGenerator->getLevel(currentLevelNumber);
+        generateAliens(*currentLevel);
+    }
+
 }
 
 void GameDialog::paintBullets(QPainter& painter) {
@@ -209,7 +229,7 @@ void GameDialog::updateBullets()
             i--;
         } else if (score == -1) {
             // DEAD SHIP!
-            close();
+            //close();
         } else
         {
             b->move();// we move at the end so that we can see collisions before the game ends
