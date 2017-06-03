@@ -63,4 +63,9 @@ void Menu::openScore() {
         revealPlayerScore(true);
     }
 }
+
+void Menu::update() {
+    revealPlayerScore(true);
+}
+
 }

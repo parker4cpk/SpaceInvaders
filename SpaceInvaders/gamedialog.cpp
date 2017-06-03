@@ -58,6 +58,10 @@ GameDialog::GameDialog(QWidget* parent)
     timer->start(this->frames);
 
     update();
+
+    livesLeft = 1;
+    showScore();
+
 }
 
 GameDialog::~GameDialog() {
@@ -147,7 +151,7 @@ void GameDialog::keyReleaseEvent(QKeyEvent* event) {
 
 }
 
-// shows this game score
+// shows this game
 void GameDialog::showScore() {
     // in future, implement 'score list' in menu.
     menu->openScore();
@@ -157,53 +161,64 @@ void GameDialog::showScore() {
 void GameDialog::nextFrame() {
 
     if (!paused) {
-        Config* c = Config::getInstance();
 
-        /*
-        QStringList instruct = c->get_instructs();
-        if (next_instruct >= instruct.size()) {
-            next_instruct = next_instruct % instruct.size();
-        }
-        QString ins = instruct[next_instruct];
-        next_instruct++;
-        */
-
-        int nextInstruction;
-        if (leftPressed && rightPressed) {
-            nextInstruction = lastInstruction;
-        } else if (leftPressed) {
-            nextInstruction = Qt::Key_Left;
-        } else if (rightPressed) {
-            nextInstruction = Qt::Key_Right;
-        } else {
-            nextInstruction = Qt::Key_0;
-        }
-
-        if (nextInstruction == Qt::Key_Left) {
-            ship->move_left();
-        } else if (nextInstruction == Qt::Key_Right) {
-            ship->move_right();
-        }
-
-        if (isShooting) {
-            bullets.push_back(this->ship->shoot());
-            this->shipFiringSound.play();
-        }
-
+        updateShip();
         updateBullets();
 
         // loop through each alien swarm, move and calculated collisions
         swarms->move("");  // recursive.
         checkSwarmCollisions(swarms);
         addBullets(swarms->shoot(""));
+
+        menu->update();
+
+        if (livesLeft < 1) {
+            close();
+        }
+
     }
     // prepare collisions and calculate score
     update();
 
     if (swarms->getAliens().isEmpty()) {
-
         incrementLevel();
+    }
 
+}
+
+void GameDialog::updateShip() {
+
+    /*
+    Config* c = Config::getInstance();
+
+    QStringList instruct = c->get_instructs();
+    if (next_instruct >= instruct.size()) {
+        next_instruct = next_instruct % instruct.size();
+    }
+    QString ins = instruct[next_instruct];
+    next_instruct++;
+    */
+
+    int nextInstruction;
+    if (leftPressed && rightPressed) {
+        nextInstruction = lastInstruction;
+    } else if (leftPressed) {
+        nextInstruction = Qt::Key_Left;
+    } else if (rightPressed) {
+        nextInstruction = Qt::Key_Right;
+    } else {
+        nextInstruction = Qt::Key_0;
+    }
+
+    if (nextInstruction == Qt::Key_Left) {
+        ship->move_left();
+    } else if (nextInstruction == Qt::Key_Right) {
+        ship->move_right();
+    }
+
+    if (isShooting) {
+        bullets.push_back(this->ship->shoot());
+        this->shipFiringSound.play();
     }
 
 }
@@ -244,13 +259,13 @@ void GameDialog::updateBullets()
         // WHEN BULLET OFF GAME SCREEN, FREE MEMORY AND DELETE
         int score = get_collided(b, swarms);
         if (b->get_y() < 0 || b->get_y() >= SCALEDHEIGHT || b->get_x() < 0 ||
-                b->get_x() >= SCALEDWIDTH || score > 0) {
+                b->get_x() >= SCALEDWIDTH || score != 0) {
             delete b;
             bullets.erase(bullets.begin() + i);
             i--;
-        } else if (score == -1) {
+//        } else if (score == -1) {
             // DEAD SHIP!
-            close();
+//            close();
         } else
         {
             b->move();// we move at the end so that we can see collisions before the game ends
@@ -317,8 +332,8 @@ int GameDialog::get_collided(Bullet*& b, AlienBase*& root) {
     if (!b->isFriendly()) {
         // check it hits the player ship
         if (b->collides(*this->ship)) {
+            livesLeft--;
             totalScore = -1;
-
         }  // future; add barriers here.
     } else {
         totalScore += get_collided_swarm(b, root);
@@ -347,6 +362,7 @@ int GameDialog::get_collided_swarm(Bullet*& b, AlienBase*& root) {
             if (totalScore > 0 && child->getAliens().size() == 0) {
                 // some children shoot more bullets when they die.
                 // ask child for reaction when you're going to delete them
+                totalScore += child->get_score();
                 addBullets(child->react());
                 root->remove(child);
                 i--;

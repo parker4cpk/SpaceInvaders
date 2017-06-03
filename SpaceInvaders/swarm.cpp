@@ -128,7 +128,7 @@ QList<AlienBase*> Swarm::getAliens() const {
 }
 
 int Swarm::get_score() const {
-    return 0;
+    return 1;
 }
 
 // how it reacts before it dies

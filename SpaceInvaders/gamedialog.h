@@ -24,6 +24,7 @@ protected:
     QTimer* timer;
     void paintEvent(QPaintEvent* event);
     void paintBullets(QPainter& painter);
+    void updateShip();
     void updateBullets();
     void paintSwarm(QPainter& painter, AlienBase*& root);
     void checkSwarmCollisions(AlienBase*& root);
@@ -61,7 +62,8 @@ protected:
     void pauseStart();
     Menu* menu;
 
-    // score
+    // Lives and score
+    int livesLeft;
     int gameScore;  // this run's score.
 
     int currentLevelNumber;

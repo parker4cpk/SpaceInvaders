@@ -10,6 +10,7 @@ public:
     ~Menu();
     void displayMenu(bool paused);
     void openScore();
+    void update();
 
 private:
     void makeButtons(QWidget* parent, QString name);
