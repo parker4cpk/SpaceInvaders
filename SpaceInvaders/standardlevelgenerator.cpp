@@ -13,9 +13,9 @@ const QList<SwarmInfo>* StandardLevelGenerator::getLevel(int level) {
     QList<SwarmInfo> *swarmInfos = new QList<SwarmInfo>();
 
     // Blue aliens
-    QList<Qpair<int, int>> blueAlienPositions;
+    QList<QPair<int, int>> blueAlienPositions;
     for (int i = 0; i < level; i++) {
-        blueAlienPositions.push_back(QPair(rand(m_maxX), rand(m_maxY)));
+        blueAlienPositions.push_back(QPair<int, int>(rand() % m_maxX, rand() % m_maxY));
     }
     QStringList blueAlienMoves;
     for (int i = 0; i < 50; i++) {
@@ -24,9 +24,9 @@ const QList<SwarmInfo>* StandardLevelGenerator::getLevel(int level) {
     swarmInfos->push_back(SwarmInfo("blue", blueAlienPositions, blueAlienMoves, 10 - level));
 
     // Red aliens
-    QList<Qpair<int, int>> redAlienPositions;
+    QList<QPair<int, int>> redAlienPositions;
     for (int i = 0; i < level; i++) {
-        redAlienPositions.push_back(QPair(rand(m_maxX), rand(m_maxY)));
+        redAlienPositions.push_back(QPair<int, int>(rand() % m_maxX, rand() % m_maxY));
     }
     QStringList redAlienMoves;
     for (int i = 0; i < 50; i++) {
@@ -35,9 +35,9 @@ const QList<SwarmInfo>* StandardLevelGenerator::getLevel(int level) {
     swarmInfos->push_back(SwarmInfo("red", redAlienPositions, redAlienMoves, 10 - level));
 
     // Dumb aliens
-    QList<Qpair<int, int>> dumbAlienPositions;
+    QList<QPair<int, int>> dumbAlienPositions;
     for (int i = 0; i < level; i++) {
-        dumbAlienPositions.push_back(QPair(rand(m_maxX), rand(m_maxY)));
+        dumbAlienPositions.push_back(QPair<int, int>(rand() % m_maxX, rand() % m_maxY));
     }
     QStringList dumbAlienMoves;
     for (int i = 0; i < 50; i++) {
@@ -46,9 +46,9 @@ const QList<SwarmInfo>* StandardLevelGenerator::getLevel(int level) {
     swarmInfos->push_back(SwarmInfo("dumb", dumbAlienPositions, dumbAlienMoves, 10 - level));
 
     // Hunter aliens
-    QList<Qpair<int, int>> hunterAlienPositions;
+    QList<QPair<int, int>> hunterAlienPositions;
     for (int i = 0; i < level; i++) {
-        hunterAlienPositions.push_back(QPair(rand(m_maxX), rand(m_maxY)));
+        hunterAlienPositions.push_back(QPair<int, int>(rand() % m_maxX, rand() % m_maxY));
     }
     QStringList hunterAlienMoves;
     for (int i = 0; i < 50; i++) {
@@ -60,9 +60,9 @@ const QList<SwarmInfo>* StandardLevelGenerator::getLevel(int level) {
 
 }
 
-const QString getRandomMove() {
+const QString StandardLevelGenerator::getRandomMove() {
 
-    int selection = rand(4);
+    int selection = rand() % 4;
     switch(selection) {
     case 0:
         return QString("L");
@@ -70,7 +70,7 @@ const QString getRandomMove() {
         return QString("R");
     case 2:
         return QString("U");
-    case 3:
+    default:
         return QString("D");
     }
 
