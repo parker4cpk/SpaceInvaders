@@ -64,6 +64,7 @@ GameDialog::~GameDialog() {
     delete ship;
     delete timer;  // optional, don't have to do this apparently
 
+    delete currentLevel;
     delete levelGenerator;
 
     // loop though swarms to delete aliens
@@ -71,6 +72,9 @@ GameDialog::~GameDialog() {
     for (Bullet* b : bullets) {
         delete b;
     }
+
+    delete menu;
+
 }
 
 // make the swarms for this level.
@@ -198,14 +202,31 @@ void GameDialog::nextFrame() {
 
     if (swarms->getAliens().isEmpty()) {
 
-        delete currentLevel;
-        currentLevelNumber++;
-        if (currentLevelNumber > 10) {
-            close();
-         }
-        currentLevel = levelGenerator->getLevel(currentLevelNumber);
-        generateAliens(*currentLevel);
+        incrementLevel();
+
     }
+
+}
+
+void GameDialog::incrementLevel() {
+
+    // loop though swarms to delete aliens
+    delete swarms;  // recursively deletes itself.
+
+    int numberOfBullets = bullets.size();
+    for (int i = 0; i < numberOfBullets; i++) {
+        Bullet *b = bullets.back();
+        delete b;
+        bullets.pop_back();
+    }
+
+    delete currentLevel;
+    currentLevelNumber++;
+    if (currentLevelNumber > 10) {
+        close();
+     }
+    currentLevel = levelGenerator->getLevel(currentLevelNumber);
+    generateAliens(*currentLevel);
 
 }
 
@@ -229,7 +250,7 @@ void GameDialog::updateBullets()
             i--;
         } else if (score == -1) {
             // DEAD SHIP!
-            //close();
+            close();
         } else
         {
             b->move();// we move at the end so that we can see collisions before the game ends

@@ -67,6 +67,7 @@ protected:
     int currentLevelNumber;
     const QList<SwarmInfo> *currentLevel;
     LevelGenerator *levelGenerator;
+    void incrementLevel();
 
 public slots:
     void nextFrame();
