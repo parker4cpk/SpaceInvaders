@@ -81,6 +81,9 @@ GameDialog::~GameDialog() {
 
     delete menu;
 
+    delete playerScoreGui;
+    delete highScoreGui;
+
 }
 
 // make the swarms for this level.
@@ -403,7 +406,10 @@ void GameDialog::endGame() {
 }
 
 void GameDialog::submitHighScore(QString name) {
-    std::cout << name.toStdString() << std::endl;
+
+    highScoreGui = new HighScoreGui(this, name, gameScore);
+    highScoreGui->setVisible(true);
+
 }
 
 }

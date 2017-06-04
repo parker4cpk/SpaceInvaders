@@ -7,6 +7,7 @@
 #include "swarminfo.h"
 #include "standardlevelgenerator.h"
 #include "playerscoregui.h"
+#include "highscoregui.h"
 #include <QDialog>
 #include <QSoundEffect>
 #include <QWidget>
@@ -63,6 +64,7 @@ protected:
     void pauseStart();
     Menu* menu;
     PlayerScoreGui *playerScoreGui;
+    HighScoreGui *highScoreGui;
 
     // Lives and score
     int livesLeft;
