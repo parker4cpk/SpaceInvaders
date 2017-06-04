@@ -1,3 +1,1 @@
-Parker	105
-The Donald	69
-Obama	66
+Donald Trump	-1

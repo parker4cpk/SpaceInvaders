@@ -1,0 +1,4 @@
+Parker	98
+Obama	50
+Ben	45
+Derek	14

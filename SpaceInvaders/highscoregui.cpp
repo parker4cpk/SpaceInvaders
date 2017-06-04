@@ -41,9 +41,10 @@ void HighScoreGui::initHighScores() {
 
 std::vector<QPair<QString, int>>* HighScoreGui::retrieveStoredHighScores() {
 
-    QFile highScoreFile("highscores.txt");
+    QFile highScoreFile("../SpaceInvaders/highscores.txt");
 
     if (!highScoreFile.open(QIODevice::ReadOnly)) {
+        std::cout << "1" << std::endl;
         highScoreFile.close();
         return nullptr;
     }
@@ -57,6 +58,7 @@ std::vector<QPair<QString, int>>* HighScoreGui::retrieveStoredHighScores() {
         QStringList tokens = line.split(QString("\t"));
 
         if (tokens.length() != 2) {
+            std::cout << "2" << std::endl;
             highScoreFile.close();
             delete storedHighScores;
             return nullptr;
@@ -64,6 +66,7 @@ std::vector<QPair<QString, int>>* HighScoreGui::retrieveStoredHighScores() {
 
         QRegExp re("\\d*");
         if (!re.exactMatch(tokens.at(1))) {
+            std::cout << "3" << std::endl;
             highScoreFile.close();
             delete storedHighScores;
             return nullptr;
@@ -85,7 +88,7 @@ bool HighScoreGui::compareHighScores(QPair<QString, int> first, QPair<QString, i
 
 void HighScoreGui::storeHighScores() {
 
-    QFile file("highscores.txt");
+    QFile file("../SpaceInvaders/highscores.txt");
     if (file.open(QIODevice::WriteOnly)) {
 
         QTextStream stream(&file);
