@@ -23,8 +23,8 @@ void Menu::makeButtons(QWidget* parent) {
     scoreLabel = new QLabel(parent);
     scoreLabel->setGeometry(0, 30, 100, 30);
     scoreLabel->setText("Score:");
-    scoreLabel->setVisible(true);
-    scoreLabel->setStyleSheet("background-color: white");
+    scoreLabel->setVisible(false);
+    scoreLabel->setStyleSheet("background-color: gray");
 
     scoreValueLabel = new QLabel(parent);
     scoreValueLabel->setGeometry(100, 30, 100, 30);

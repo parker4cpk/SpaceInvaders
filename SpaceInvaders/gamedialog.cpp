@@ -62,6 +62,8 @@ GameDialog::GameDialog(QWidget* parent)
     livesLeft = 1;
     showScore();
 
+    gameEnded = false;
+
 }
 
 GameDialog::~GameDialog() {
@@ -160,6 +162,9 @@ void GameDialog::showScore() {
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
 void GameDialog::nextFrame() {
 
+    if (gameEnded)
+        return;
+
     if (!paused) {
 
         updateShip();
@@ -173,7 +178,7 @@ void GameDialog::nextFrame() {
         menu->update();
 
         if (livesLeft < 1) {
-            close();
+            endGame();
         }
 
     }
@@ -225,8 +230,7 @@ void GameDialog::updateShip() {
 
 void GameDialog::incrementLevel() {
 
-    // loop though swarms to delete aliens
-    delete swarms;  // recursively deletes itself.
+    delete swarms;
 
     int numberOfBullets = bullets.size();
     for (int i = 0; i < numberOfBullets; i++) {
@@ -236,9 +240,10 @@ void GameDialog::incrementLevel() {
     }
 
     delete currentLevel;
+
     currentLevelNumber++;
     if (currentLevelNumber > 10) {
-        close();
+        endGame();
      }
     currentLevel = levelGenerator->getLevel(currentLevelNumber);
     generateAliens(*currentLevel);
@@ -299,7 +304,7 @@ void GameDialog::checkSwarmCollisions(AlienBase *&root)
         if (list.size() == 0) {  // leaf
             // check if it is crashing into the player ship
             if (child->collides(*this->ship)) {
-                close();  // DEAD SHIP AGAIN
+                endGame();  // DEAD SHIP AGAIN
             }
         } else {
           checkSwarmCollisions(child);
@@ -309,13 +314,20 @@ void GameDialog::checkSwarmCollisions(AlienBase *&root)
 
 // PAINTING THE SHIP AND ANY BULLETS
 void GameDialog::paintEvent(QPaintEvent*) {
+
+    if (gameEnded) {
+        return;
+    }
+
     // SHIP
     QPainter painter(this);
 
     painter.drawPixmap(ship->get_x(), ship->get_y(), ship->get_image());
 
     // loop through each alien swarm and draw
-    paintSwarm(painter, swarms);
+    if (swarms != nullptr) {
+        paintSwarm(painter, swarms);
+    }
 
     // BULLETS last so they draw over everything
     paintBullets(painter);
@@ -378,4 +390,20 @@ void GameDialog::addBullets(const QList<Bullet*>& list) {
         this->bullets.push_back(b);
     }
 }
+
+void GameDialog::endGame() {
+
+    gameEnded = true;
+    showScore();
+    this->setStyleSheet("background-color:gray");
+    playerScoreGui = new PlayerScoreGui(this, gameScore);
+    connect(playerScoreGui, SIGNAL(submitHighScore(QString)), this, SLOT(submitHighScore(QString)));
+    playerScoreGui->setVisible(true);
+
+}
+
+void GameDialog::submitHighScore(QString name) {
+    std::cout << name.toStdString() << std::endl;
+}
+
 }

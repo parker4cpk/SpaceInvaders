@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     hunter.cpp \
     menu.cpp \
     standardlevelgenerator.cpp \
-    playerscoregui.cpp
+    playerscoregui.cpp \
+    highscoregui.cpp
 
 HEADERS  += \
     base.h \
@@ -62,7 +63,8 @@ HEADERS  += \
     alienbase.h \
     standardlevelgenerator.h \
     levelgenerator.h \
-    playerscoregui.h
+    playerscoregui.h \
+    highscoregui.h
 
 FORMS    += dialog.ui
 

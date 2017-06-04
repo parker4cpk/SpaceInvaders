@@ -1,18 +1,33 @@
 #ifndef PLAYERSCOREGUI_H
 #define PLAYERSCOREGUI_H
 
-#include <qlabel.h>
-#include <qlineedit.h>
+#include <QObject>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 
-class PlayerScoreGui
-{
+namespace game {
+
+class PlayerScoreGui : public QObject {
+
+    Q_OBJECT
+
 public:
     PlayerScoreGui(QWidget *parent, int score);
+    virtual ~PlayerScoreGui();
+    void setVisible(bool b);
 private:
-    QLabel playerScore;
-    QLabel nameLabel;
-    QLineEdit nameLineEdit;
     int m_score;
+    QLabel *playerScore;
+    QLabel *nameLabel;
+    QLineEdit *nameLineEdit;
+    QPushButton *submitButton;
+private slots:
+    void submitHighScore();
+signals:
+    void submitHighScore(QString name);
 };
+
+}
 
 #endif // PLAYERSCOREGUI_H
