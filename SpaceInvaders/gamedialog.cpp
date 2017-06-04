@@ -25,7 +25,7 @@ GameDialog::GameDialog(QWidget* parent)
 
     // MENU
     QList<QPair<QString, int>> dummy;
-    menu = new Menu(this, c->get_name(), this->gameScore, dummy);
+    menu = new Menu(this, this->gameScore, dummy);
 
     // EXTENSION STAGE 1 PART 1 - RESCALE GAME SCREEN FOR SHIP SIZE
     this->setFixedWidth(SCALEDWIDTH);

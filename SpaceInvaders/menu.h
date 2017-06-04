@@ -6,20 +6,20 @@
 namespace game {
 class Menu {
 public:
-    Menu(QWidget* parent, QString name, int& playeScore, QList<QPair<QString, int>> scores);
+    Menu(QWidget* parent, int& playeScore, QList<QPair<QString, int>> scores);
     ~Menu();
     void displayMenu(bool paused);
     void openScore();
     void update();
 
 private:
-    void makeButtons(QWidget* parent, QString name);
+    void makeButtons(QWidget* parent);
     void closeButtons();  // if any buttons are left open, close them
     int& gameScore;
     QPushButton* score;
 
-    QLabel* playerName;
-    QLabel* playerScoreLabel;
+    QLabel* scoreLabel;
+    QLabel* scoreValueLabel;
     void revealPlayerScore(bool open);
 };
 }

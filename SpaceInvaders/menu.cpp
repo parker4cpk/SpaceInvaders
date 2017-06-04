@@ -1,36 +1,36 @@
 #include "menu.h"
 
 namespace game {
-Menu::Menu(QWidget* parent, QString name, int& playerScore, QList<QPair<QString, int>> scores)
+Menu::Menu(QWidget* parent, int& playerScore, QList<QPair<QString, int>> scores)
         : gameScore(playerScore) {
     // Scores could be read in the future.
-    makeButtons(parent, name);
+    makeButtons(parent);
 }
 
 Menu::~Menu() {
     delete score;
-    delete playerName;
-    delete playerScoreLabel;
+    delete scoreLabel;
+    delete scoreValueLabel;
 }
 
-void Menu::makeButtons(QWidget* parent, QString name) {
+void Menu::makeButtons(QWidget* parent) {
     score = new QPushButton("Score", parent);
     score->setGeometry(QRect(0, 0, 100, 30));
     score->setVisible(false);
     score->setStyleSheet("background-color: red");
     QObject::connect(score, SIGNAL(released()), parent, SLOT(showScore()));
 
-    playerName = new QLabel(parent);
-    playerName->setGeometry(0, 30, 100, 30);
-    playerName->setText(name);
-    playerName->setVisible(false);
-    playerName->setStyleSheet("background-color: white");
+    scoreLabel = new QLabel(parent);
+    scoreLabel->setGeometry(0, 30, 100, 30);
+    scoreLabel->setText("Score:");
+    scoreLabel->setVisible(true);
+    scoreLabel->setStyleSheet("background-color: white");
 
-    playerScoreLabel = new QLabel(parent);
-    playerScoreLabel->setGeometry(100, 30, 100, 30);
-    playerScoreLabel->setText(QString::number(gameScore));
-    playerScoreLabel->setVisible(false);
-    playerScoreLabel->setStyleSheet("background-color: gray");
+    scoreValueLabel = new QLabel(parent);
+    scoreValueLabel->setGeometry(100, 30, 100, 30);
+    scoreValueLabel->setText(QString::number(gameScore));
+    scoreValueLabel->setVisible(false);
+    scoreValueLabel->setStyleSheet("background-color: gray");
 }
 
 // called when game is paused or unpaused
@@ -51,13 +51,13 @@ void Menu::closeButtons() {
 // helper function for OpenScore
 void Menu::revealPlayerScore(bool open) {
     // recalculate playerScoreLabel
-    playerScoreLabel->setText(QString::number(gameScore));
-    playerName->setVisible(open);
-    playerScoreLabel->setVisible(open);
+    update();
+    scoreLabel->setVisible(open);
+    scoreValueLabel->setVisible(open);
 }
 
 void Menu::openScore() {
-    if (playerName->isVisible()) {
+    if (scoreLabel->isVisible()) {
         revealPlayerScore(false);
     } else {
         revealPlayerScore(true);
@@ -65,7 +65,7 @@ void Menu::openScore() {
 }
 
 void Menu::update() {
-    revealPlayerScore(true);
+    scoreValueLabel->setText(QString::number(gameScore));
 }
 
 }

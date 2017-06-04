@@ -59,7 +59,8 @@ SOURCES       = ../SpaceInvaders/main.cpp \
 		../SpaceInvaders/alienbuilder.cpp \
 		../SpaceInvaders/hunter.cpp \
 		../SpaceInvaders/menu.cpp \
-		../SpaceInvaders/standardlevelgenerator.cpp qrc_resources.cpp \
+		../SpaceInvaders/standardlevelgenerator.cpp \
+		../SpaceInvaders/playerscoregui.cpp qrc_resources.cpp \
 		moc_gamedialog.cpp
 OBJECTS       = main.o \
 		base.o \
@@ -76,6 +77,7 @@ OBJECTS       = main.o \
 		hunter.o \
 		menu.o \
 		standardlevelgenerator.o \
+		playerscoregui.o \
 		qrc_resources.o \
 		moc_gamedialog.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -325,7 +327,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/SpaceInvaders1.0.0 || mkdir -p .tmp/SpaceInvaders1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/resources.qrc .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/base.h ../SpaceInvaders/ship.h ../SpaceInvaders/gamedialog.h ../SpaceInvaders/bullet.h ../SpaceInvaders/config.h ../SpaceInvaders/bulletbuilderinterface.h ../SpaceInvaders/bulletbuilder.h ../SpaceInvaders/alien.h ../SpaceInvaders/swarminfo.h ../SpaceInvaders/swarm.h ../SpaceInvaders/diagonalbullet.h ../SpaceInvaders/alienbuilder.h ../SpaceInvaders/hunter.h ../SpaceInvaders/menu.h ../SpaceInvaders/alienbase.h ../SpaceInvaders/standardlevelgenerator.h ../SpaceInvaders/levelgenerator.h .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/main.cpp ../SpaceInvaders/base.cpp ../SpaceInvaders/ship.cpp ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/bullet.cpp ../SpaceInvaders/config.cpp ../SpaceInvaders/bulletbuilder.cpp ../SpaceInvaders/alien.cpp ../SpaceInvaders/swarminfo.cpp ../SpaceInvaders/swarm.cpp ../SpaceInvaders/diagonalbullet.cpp ../SpaceInvaders/alienbuilder.cpp ../SpaceInvaders/hunter.cpp ../SpaceInvaders/menu.cpp ../SpaceInvaders/standardlevelgenerator.cpp .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/dialog.ui .tmp/SpaceInvaders1.0.0/ && (cd `dirname .tmp/SpaceInvaders1.0.0` && $(TAR) SpaceInvaders1.0.0.tar SpaceInvaders1.0.0 && $(COMPRESS) SpaceInvaders1.0.0.tar) && $(MOVE) `dirname .tmp/SpaceInvaders1.0.0`/SpaceInvaders1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/SpaceInvaders1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/resources.qrc .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/base.h ../SpaceInvaders/ship.h ../SpaceInvaders/gamedialog.h ../SpaceInvaders/bullet.h ../SpaceInvaders/config.h ../SpaceInvaders/bulletbuilderinterface.h ../SpaceInvaders/bulletbuilder.h ../SpaceInvaders/alien.h ../SpaceInvaders/swarminfo.h ../SpaceInvaders/swarm.h ../SpaceInvaders/diagonalbullet.h ../SpaceInvaders/alienbuilder.h ../SpaceInvaders/hunter.h ../SpaceInvaders/menu.h ../SpaceInvaders/alienbase.h ../SpaceInvaders/standardlevelgenerator.h ../SpaceInvaders/levelgenerator.h ../SpaceInvaders/playerscoregui.h .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/main.cpp ../SpaceInvaders/base.cpp ../SpaceInvaders/ship.cpp ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/bullet.cpp ../SpaceInvaders/config.cpp ../SpaceInvaders/bulletbuilder.cpp ../SpaceInvaders/alien.cpp ../SpaceInvaders/swarminfo.cpp ../SpaceInvaders/swarm.cpp ../SpaceInvaders/diagonalbullet.cpp ../SpaceInvaders/alienbuilder.cpp ../SpaceInvaders/hunter.cpp ../SpaceInvaders/menu.cpp ../SpaceInvaders/standardlevelgenerator.cpp ../SpaceInvaders/playerscoregui.cpp .tmp/SpaceInvaders1.0.0/ && $(COPY_FILE) --parents ../SpaceInvaders/dialog.ui .tmp/SpaceInvaders1.0.0/ && (cd `dirname .tmp/SpaceInvaders1.0.0` && $(TAR) SpaceInvaders1.0.0.tar SpaceInvaders1.0.0 && $(COMPRESS) SpaceInvaders1.0.0.tar) && $(MOVE) `dirname .tmp/SpaceInvaders1.0.0`/SpaceInvaders1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/SpaceInvaders1.0.0
 
 
 clean:compiler_clean 
@@ -350,19 +352,19 @@ compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: ../SpaceInvaders/resources.qrc \
-		../SpaceInvaders/Images/redInvader.png \
-		../SpaceInvaders/Images/hunterInvader.png \
-		../SpaceInvaders/Images/hunterInvaderLaser.png \
-		../SpaceInvaders/Images/blueInvader.png \
-		../SpaceInvaders/Images/dumbInvaderLaser.png \
-		../SpaceInvaders/Images/laser.png \
-		../SpaceInvaders/Images/redInvaderLaser.png \
-		../SpaceInvaders/Images/blueInvaderLaser.png \
-		../SpaceInvaders/Images/dumbInvader.png \
-		../SpaceInvaders/Images/ship.png \
 		../SpaceInvaders/Sounds/shoot.wav \
 		../SpaceInvaders/Sounds/invader.wav \
-		../SpaceInvaders/Sounds/death.wav
+		../SpaceInvaders/Sounds/death.wav \
+		../SpaceInvaders/Images/hunterInvaderLaser.png \
+		../SpaceInvaders/Images/blueInvaderLaser.png \
+		../SpaceInvaders/Images/redInvader.png \
+		../SpaceInvaders/Images/dumbInvader.png \
+		../SpaceInvaders/Images/laser.png \
+		../SpaceInvaders/Images/hunterInvader.png \
+		../SpaceInvaders/Images/redInvaderLaser.png \
+		../SpaceInvaders/Images/blueInvader.png \
+		../SpaceInvaders/Images/dumbInvaderLaser.png \
+		../SpaceInvaders/Images/ship.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name resources ../SpaceInvaders/resources.qrc -o qrc_resources.cpp
 
 compiler_moc_header_make_all: moc_gamedialog.cpp
@@ -510,6 +512,8 @@ moc_gamedialog.cpp: ../SpaceInvaders/config.h \
 		/usr/include/qt5/QtMultimedia/qtmultimediadefs.h \
 		../SpaceInvaders/alienbuilder.h \
 		../SpaceInvaders/hunter.h \
+		../SpaceInvaders/standardlevelgenerator.h \
+		../SpaceInvaders/levelgenerator.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtWidgets/QWidget \
@@ -677,6 +681,8 @@ main.o: ../SpaceInvaders/main.cpp ../SpaceInvaders/gamedialog.h \
 		/usr/include/qt5/QtMultimedia/qtmultimediadefs.h \
 		../SpaceInvaders/alienbuilder.h \
 		../SpaceInvaders/hunter.h \
+		../SpaceInvaders/standardlevelgenerator.h \
+		../SpaceInvaders/levelgenerator.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtWidgets/QWidget \
@@ -1028,6 +1034,8 @@ gamedialog.o: ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/gamedialog.h \
 		/usr/include/qt5/QtMultimedia/qtmultimediadefs.h \
 		../SpaceInvaders/alienbuilder.h \
 		../SpaceInvaders/hunter.h \
+		../SpaceInvaders/standardlevelgenerator.h \
+		../SpaceInvaders/levelgenerator.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtWidgets/QWidget \
@@ -2194,6 +2202,9 @@ standardlevelgenerator.o: ../SpaceInvaders/standardlevelgenerator.cpp ../SpaceIn
 		/usr/include/qt5/QtCore/QString \
 		/usr/include/qt5/QtCore/QStringList
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o standardlevelgenerator.o ../SpaceInvaders/standardlevelgenerator.cpp
+
+playerscoregui.o: ../SpaceInvaders/playerscoregui.cpp ../SpaceInvaders/playerscoregui.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o playerscoregui.o ../SpaceInvaders/playerscoregui.cpp
 
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
