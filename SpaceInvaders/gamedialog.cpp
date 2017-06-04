@@ -13,6 +13,13 @@
 
 namespace game {
 
+/*
+ * STAGE 3 NOTES
+ * This stage uses the observer design pattern.
+ * GameDialog is subscribed to a PlayerScoreGui broadcast.
+ * This is so that when a player enters a name, the GameDialog can be notified
+ * and store the score in the list of high scores.
+ */
 GameDialog::GameDialog(QWidget* parent)
         : QDialog(parent), bullets(), shipFiringSound(this), gameScore(0) {
     // SET UP GAME DIMENSIONS AND CONFIG
